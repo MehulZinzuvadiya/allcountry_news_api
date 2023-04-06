@@ -45,24 +45,24 @@ class _NewsScreenState extends State<NewsScreen> {
               children: [
                 TextButton(
                     onPressed: () {
-                      newsProviderT!.getNews("in");
+                      newsProviderT!.getNews('in');
                     },
                     child: Text("in")),
                 TextButton(
                     onPressed: () {
-                      newsProviderT!.getNews("uk");
+                      newsProviderT!.getNews('uk');
                     },
                     child: Text("uk")),
                 TextButton(
                     onPressed: () {
-                      newsProviderT!.getNews("au");
-                    },
-                    child: Text("au")),
-                TextButton(
-                    onPressed: () {
-                      newsProviderT!.getNews("us");
+                      newsProviderT!.getNews('us');
                     },
                     child: Text("us")),
+                TextButton(
+                    onPressed: () {
+                      newsProviderT!.getNews('au');
+                    },
+                    child: Text('au')),
               ],
             ),
             FutureBuilder(
