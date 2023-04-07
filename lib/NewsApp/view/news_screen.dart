@@ -17,12 +17,12 @@ class _NewsScreenState extends State<NewsScreen> {
   NewsProvider? newsProviderF;
   NewsModel? nm1;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Provider.of<NewsProvider>(context, listen: false).getNews('in');
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   Provider.of<NewsProvider>(context, listen: false).getNews('in');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -36,61 +36,60 @@ class _NewsScreenState extends State<NewsScreen> {
         centerTitle: true,
         backgroundColor: Colors.red.shade700,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      newsProviderT!.getNews('in');
-                    },
-                    child: Text("in")),
-                TextButton(
-                    onPressed: () {
-                      newsProviderT!.getNews('uk');
-                    },
-                    child: Text("uk")),
-                TextButton(
-                    onPressed: () {
-                      newsProviderT!.getNews('us');
-                    },
-                    child: Text("us")),
-                TextButton(
-                    onPressed: () {
-                      newsProviderT!.getNews('au');
-                    },
-                    child: Text('au')),
-              ],
-            ),
-            FutureBuilder(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                  onPressed: () {
+                    newsProviderF!.changeCountry('gb');
+                  },
+                  child: Text("in")),
+              TextButton(
+                  onPressed: () {
+                    newsProviderF!.changeCountry('uk');
+                  },
+                  child: Text("uk")),
+              TextButton(
+                  onPressed: () {
+                    newsProviderF!.changeCountry('us');
+                  },
+                  child: Text("us")),
+              TextButton(
+                  onPressed: () {
+                    newsProviderF!.changeCountry('uae');
+                  },
+                  child: Text('uae')),
+            ],
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future:
+                  newsProviderT!.getNews('${newsProviderT!.selectedCountry}'),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 } else if (snapshot.hasData) {
                   NewsModel? nm1 = snapshot.data;
 
-                  return Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text("${nm1!.articles[index].source!.name}"),
-                          subtitle: Text("${nm1!.articles[index].description}"),
-                        );
-                      },
-                      itemCount: nm1!.articles.length,
-                    ),
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text("${nm1!.articles[index].source!.name}"),
+                        subtitle: Text("${nm1!.articles[index].description}"),
+                      );
+                    },
+                    itemCount: nm1!.articles.length,
                   );
                 }
 
-                return CircularProgressIndicator();
+                return Container(child: CircularProgressIndicator());
               },
-              future: newsProviderF!.getNews('uk'),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     ));
   }
